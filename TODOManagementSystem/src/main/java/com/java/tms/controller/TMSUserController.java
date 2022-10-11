@@ -34,27 +34,32 @@ public class TMSUserController {
 	
 	@RequestMapping("/index")
 	public String dashBoard(Model model, Principal principal) {
-		String userName = principal.getName();
-		System.out.println("UserName "+userName);
-		User user = this.userRepository.getUserByUserName(userName);
-		System.out.println("user "+user);
-		System.out.println("user id "+user.getId());
-		model.addAttribute("user",user);
-		System.out.println("==================++++++++++Before getAllTODOs method++++++++++++++==============");
-		List<TODO> todoList = todoService.getAllTODOs();
-		List<TODO> todoObjList = new ArrayList<>();
-		for(int i=0;i<todoList.size();i++) {
-			TODO todoObj = todoList.get(i);
-			System.out.println(todoObj.getUserName());
-			if(todoObj.getUserName() == user.getUserName()) {
-				System.out.println("Entered in todoObjList");
-				todoObjList.add(todoObj);
+		try {
+			String userName = principal.getName();
+			System.out.println("UserName "+userName);
+			User user = this.userRepository.getUserByUserName(userName);
+			System.out.println("user "+user);
+			System.out.println("user id "+user.getId());
+			model.addAttribute("user",user);
+			System.out.println("==================++++++++++Before getAllTODOs method++++++++++++++==============");
+			List<TODO> todoList = todoService.getAllTODOs();
+			List<TODO> todoObjList = new ArrayList<>();
+			for(int i=0;i<todoList.size();i++) {
+				TODO todoObj = todoList.get(i);
+				System.out.println(todoObj.getUserName());
+				if(todoObj.getUserName() == user.getUserName()) {
+					System.out.println("Entered in todoObjList");
+					todoObjList.add(todoObj);
+				}
 			}
-		}
-		if(todoObjList!= null) {
-			model.addAttribute("TODOList", todoObjList);
-		}else {
-			model.addAttribute("TODOList", new TODO());
+			if(todoObjList!= null) {
+				model.addAttribute("TODOList", todoObjList);
+			}else {
+				model.addAttribute("TODOList", new TODO());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		return "TODOTask";
