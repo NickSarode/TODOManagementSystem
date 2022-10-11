@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title>Student Management System</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">TODO Management System</a>
+
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+     <li class="nav-item">
+        <a class="nav-link" th:href="@{/TMS/index}"><span th:text = "${user.userName}"></span></a>
+      </li >
+      <li class="nav-item">
+        <a  sec:authorize="isAuthenticated()" class="nav-link" th:href="@{/logout}">Logout</a>
+      </li >
+    </ul>
+  </div>
+</nav>
+<br>
+<br>
+	<div class = "container">
+		<div class = "row">
+			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+				<h1 class = "text-center"> Update Task </h1>
+				<div class = "card-body">
+					<form th:action="@{/TMS/updateTODOTask/{tId} (tId=${TODO.tId})}" th:object = "${TODO}" method="POST">
+						<div class ="form-group">
+							<label> Task Name </label>
+							<input
+							type = "text"
+							name = "taskName"
+							th:field = "*{taskName}"
+							class = "form-control"
+							placeholder="Enter Task Name" 
+							required
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label> Target Date </label>
+							 <input
+							type = "datetime-local"
+							name = "date"
+							th:field = "*{date}"
+							class = "form-control"
+							placeholder="select Date" 
+							required
+							/>
+							
+						</div>
+						
+						<div class ="form-group">
+							<label> Add Description </label>
+							<input
+							type = "text"
+							name = "description"
+							th:field = "*{description}"
+							class = "form-control"
+							placeholder="Enter Description"
+							required 
+							/>
+						</div>
+						
+						<!-- <div class ="form-group">
+							<label> Task Status </label>
+							<input
+							type = "checkbox"
+							name = "taskStatus"
+							th:field = "*{taskStatus}"
+							th:field = "${TODO.taskStatus}"
+
+							class = "form-control" 
+							/>
+						</div> -->
+						
+						<div class ="form-group" th:if="${TODO.taskStatus == true}">
+ 							 <label> Task Done </label>
+							<input
+							type = "checkbox"
+							name = "taskStatus"
+							th:field = "*{taskStatus}"
+							checked = "checked"
+							class = "form-control" 
+							/>
+						</div>
+						<div class ="form-group" th:if="${TODO.taskStatus == false}">
+						<label> Task Done </label>
+  							<input
+							type = "checkbox"
+							name = "taskStatus"
+							th:field = "*{taskStatus}"
+							checked = "none"
+							class = "form-control" 
+							/>
+						</div>
+						
+						<div class = "box-footer">
+							<button type="submit" class = "btn btn-primary">
+								Submit
+							</button>
+						</div>
+					</form>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
